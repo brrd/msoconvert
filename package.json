@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/brrd/msoconvert/issues"
   },
-  "homepage": "https://github.com/brrd/msoconvert#readme"
+  "homepage": "https://github.com/brrd/msoconvert#readme",
+  "devDependencies": {
+    "eslint": "^7.23.0"
+  }
 }
