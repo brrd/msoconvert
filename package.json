@@ -1,0 +1,29 @@
+{
+  "name": "msoconvert",
+  "version": "0.1.0",
+  "description": "Convert Word and Excel documents (Windows only)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brrd/msoconvert.git"
+  },
+  "keywords": [
+    "convert",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "windows",
+    "office",
+    "docto"
+  ],
+  "author": "brrd",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brrd/msoconvert/issues"
+  },
+  "homepage": "https://github.com/brrd/msoconvert#readme"
+}
