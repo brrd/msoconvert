@@ -40,6 +40,17 @@ test.serial("Convert a single document", async t => {
   t.true(exists);
 });
 
+test.serial("Guess format from outputExt", async t => {
+  const options = {
+    input: "test\\src\\test.docx",
+    output: "test\\out\\test.doc",
+    outputExt: "doc"
+  };
+  await convert(options);
+  const exists = await fileExists(options.output);
+  t.true(exists);
+});
+
 test.serial("Convert directory", async t => {
   const options = {
     input: "./test/src",

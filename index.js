@@ -2,6 +2,8 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const path = require("path");
 
+const defaultFormats = require("./default-formats.json");
+
 const cwd = process.cwd();
 const exePath = path.join(__dirname, "bin/docto.exe");
 
@@ -19,6 +21,16 @@ function getOutputExtArg(outputExt) {
   return "--outputextension " + outputExt;
 }
 
+function getFormatArg(format, outputExt) {
+  if (format) return `--format ${format}`;
+  const ext = (outputExt.match(/[A-z]*$/) || [])[0];
+  const guess = defaultFormats[ext];
+  if (!guess) {
+    throw Error("Could not guess format.");
+  }
+  return `--format ${guess}`;
+}
+
 function run(args) {
   return new Promise((resolve, reject) => {
     const command = `"${exePath}" ${args.join(" ")}`;
@@ -32,8 +44,11 @@ function run(args) {
 }
 
 function convert({ use, input, inputExt, output, outputExt, format, options = "" }) {
-  if (input == null || output == null || format == null) {
-    return Promise.reject("Missing parameter (input, output, format).");
+  if (input == null || output == null) {
+    return Promise.reject("Missing parameter: input and output must be defined.");
+  }
+  if (format == null && outputExt == null) {
+    return Promise.reject("Missing parameter: format or outputExt must be defined.");
   }
 
   const args = [
@@ -42,7 +57,7 @@ function convert({ use, input, inputExt, output, outputExt, format, options = ""
     inputExt ? `-FX ${inputExt}` : "",
     `--outputfile "${getAbsolutePath(output)}"`,
     getOutputExtArg(outputExt),
-    `--format ${format}`,
+    getFormatArg(format, outputExt),
     options
   ];
   

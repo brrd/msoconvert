@@ -33,8 +33,10 @@ convert({
 
 See [DocTo documentation](https://github.com/tobya/DocTo) for more information about API and additional parameters.
 
-### format
+### `format`
 
 `wdSaveFormat` enums:
 * https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.word.wdsaveformat
 * https://docs.microsoft.com/en-us/dotnet/api/microsoft.office.interop.excel.xlfileformat
+
+If `format` is not defined, msoconvert will try to guess the format from `outputExt` if provided (otherwise an error will be thrown).

@@ -1,0 +1,15 @@
+{
+  "csv": "xlCSV",
+  "doc": "wdFormatDocument97",
+  "docx": "wdFormatXMLDocument",
+  "htm": "wdFormatHTML",
+  "html": "wdFormatHTML",
+  "ods": "xlOpenDocumentSpreadsheet",
+  "odt": "wdFormatOpenDocumentText",
+  "rtf": "wdFormatRTF",
+  "txt": "wdFormatText",
+  "pdf": "wdFormatPDF",
+  "xls": "xlExcel9795",
+  "xlsx": "xlXMLSpreadsheet",
+  "xps": "wdFormatXPS"
+}
