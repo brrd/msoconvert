@@ -1,6 +1,6 @@
 {
   "name": "msoconvert",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Convert Word and Excel documents (Windows only)",
   "main": "index.js",
   "scripts": {
