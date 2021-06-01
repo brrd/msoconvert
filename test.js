@@ -1,32 +1,15 @@
 const test = require("ava");
-const fs = require("fs");
+const fs = require("fs-extra");
 const path = require("path");
 const convert = require("./index.js");
-
-const emptyDir = (dirpath) => {
-  return new Promise((resolve, reject) => {
-    fs.readdir(dirpath, (err, files) => {
-      if (err) reject(err);
-      for (const file of files) {
-        try {
-          if (file === ".keep") continue;
-          fs.unlinkSync(path.join(dirpath, file));
-        } catch(err) {
-          reject(err);
-        }
-      }
-      resolve();
-    });
-  });
-};
 
 const fileExists = (s) => new Promise(r => fs.access(s, fs.F_OK, e => r(!e)));
 
 const allFilesExist = (f) => Promise.all(f.map(fileExists)).then(r => r.every(v => v === true));
 
-test.beforeEach(() => {
+test.beforeEach(async () => {
   const outDir = path.join(__dirname, "test/out");
-  return emptyDir(outDir);
+  return fs.remove(outDir);
 });
 
 test.serial("Convert a single document", async t => {
@@ -65,4 +48,17 @@ test.serial("Convert directory", async t => {
     "test\\out\\test2.doc"
   ]);
   t.true(exists);
+});
+
+test.serial("Define output encoding", async t => {
+  const options = {
+    input: "test\\src\\test.docx",
+    output: "test\\out\\test.html",
+    format: "wdFormatHTML",
+    encoding: "msoEncodingUTF8"
+  };
+  await convert(options);
+  const html = await fs.readFile(options.output);
+  const isUTF8 = html.includes("<meta http-equiv=Content-Type content=\"text/html; charset=utf-8\">");
+  t.true(isUTF8);
 });
