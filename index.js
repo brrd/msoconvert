@@ -34,8 +34,8 @@ function getFormatArg(format, outputExt) {
 function getEncodingArg(encoding) {
   if (!encoding) return "";
   if (Number(encoding) === encoding) return `-E ${encoding}`;
-  // TODO: support lowercase and unprefixed encodings
-  const guess = encodings[encoding];
+  const key = encoding.toLowerCase().replace(/[^A-z0-9]+/gm, "");
+  const guess = encodings[key] || encodings["msoencoding" + key];
   if (!guess) {
     throw Error("Unknown encoding.");
   }

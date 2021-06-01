@@ -55,7 +55,7 @@ test.serial("Define output encoding", async t => {
     input: "test\\src\\test.docx",
     output: "test\\out\\test.html",
     format: "wdFormatHTML",
-    encoding: "msoEncodingUTF8"
+    encoding: "UTF-8"
   };
   await convert(options);
   const html = await fs.readFile(options.output);
