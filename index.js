@@ -1,7 +1,8 @@
 const exec = require("child_process").exec;
 const path = require("path");
 
-const defaultFormats = require("./default-formats.json");
+const defaultFormats = require("./enum/default-formats.json");
+const encodings = require("./enum/msoencoding.json");
 
 const cwd = process.cwd();
 const exePath = path.join(__dirname, "bin/docto.exe");
@@ -30,6 +31,17 @@ function getFormatArg(format, outputExt) {
   return `--format ${guess}`;
 }
 
+function getEncodingArg(encoding) {
+  if (!encoding) return "";
+  if (Number(encoding) === encoding) return `-E ${encoding}`;
+  // TODO: support lowercase and unprefixed encodings
+  const guess = encodings[encoding];
+  if (!guess) {
+    throw Error("Unknown encoding.");
+  }
+  return `-E ${guess}`;
+}
+
 function run(args) {
   return new Promise((resolve, reject) => {
     const command = `"${exePath}" ${args.join(" ")}`;
@@ -42,7 +54,7 @@ function run(args) {
   });
 }
 
-function convert({ use, input, inputExt, output, outputExt, format, options = "" }) {
+function convert({ use, input, inputExt, output, outputExt, format, encoding, options = "" }) {
   if (input == null || output == null) {
     return Promise.reject("Missing parameter: input and output must be defined.");
   }
@@ -57,6 +69,7 @@ function convert({ use, input, inputExt, output, outputExt, format, options = ""
     `--outputfile "${getAbsolutePath(output)}"`,
     getOutputExtArg(outputExt),
     getFormatArg(format, outputExt),
+    getEncodingArg(encoding),
     options
   ];
   
