@@ -17,14 +17,19 @@ const convert = require("msoconvert");
 
 // All the folling options are strings:
 convert({ 
-  use, // "word" (default) | "excel" | "powerpoint"
   input, // Input file or directory path.
   output, // Output file or directory path.
-  format, // wdSaveFormat for output (see below).
 
   // The two following only apply if input is a directory:
   inputExt, // Extension to search for if directory.
   outputExt, // Output extension.
+
+  // Recommended:
+  encoding, // Output encoding (see below).
+
+  // Additional options:
+  use, // "word" (default) | "excel" | "powerpoint"
+  format, // wdSaveFormat for output (see below).
   options // Additional arguments passed to docto.exe. Refer to DocTo documentation.
 })
   // A promise is returned.
@@ -32,6 +37,12 @@ convert({
 ```
 
 See [DocTo documentation](https://github.com/tobya/DocTo) for more information about API and additional parameters.
+
+### `encoding`
+
+Available encodings can be found in `enums/msoencodings.json`. It is possible to avoid the `msoencoding` prefix.
+
+If `encoding` is not defined, msoconvert will use the default encoding defined in MS Office application settings. It is recommended to always define an encoding.
 
 ### `format`
 
